@@ -1,0 +1,11 @@
+{
+  "name": "wbw-monitor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "console-stamp": "^0.2.6",
+    "dotenv": "^6.0.0",
+    "puppeteer": "^1.5.0"
+  }
+}

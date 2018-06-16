@@ -1,0 +1,9 @@
+require('dotenv').config();
+
+const config = {
+  username: process.env.WBW_USER,
+  password: process.env.WBW_PASSWORD,
+  list: process.env.WBW_LIST,
+};
+
+module.exports = config;
