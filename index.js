@@ -27,7 +27,7 @@ async function checkForNewEntries(page) {
     return rows.map(row => {
       const name = getText(row.querySelector('.expense-name'))
       const people = getText(row.querySelector('.expense-participants'))
-      if (name.toLowerCase().includes('brood') && people.includes('Davey')) {
+      if (name.toLowerCase().includes('brood') && people.toLowerCase().includes('davey')) {
         return row.getAttribute('href');
       } else {
         return null;
@@ -51,7 +51,7 @@ async function checkForNewEntries(page) {
       }
       names = Array.from(document.querySelectorAll('.participants .participants-name'));
       names.map(name => {
-        if (getText(name) === 'Davey') {
+        if (getText(name).toLowerCase().includes('davey')) {
           const item = name.closest('.participants-item');
           const minusBtn = item.querySelector('.btn.minus');
           minusBtn.click();
@@ -65,6 +65,7 @@ async function checkForNewEntries(page) {
 
 (async () => {
   const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     headless: false,
   });
   const page = await browser.newPage();
