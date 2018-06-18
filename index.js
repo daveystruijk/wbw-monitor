@@ -27,7 +27,10 @@ async function checkForNewEntries(page) {
     return rows.map(row => {
       const name = getText(row.querySelector('.expense-name'))
       const people = getText(row.querySelector('.expense-participants'))
-      if (name.toLowerCase().includes('brood') && people.toLowerCase().includes('davey')) {
+      // Also check for a comma, else removing the last person will fail anyway
+      if (name.toLowerCase().includes('brood') &&
+          people.toLowerCase().includes('davey') &&
+          people.toLowerCase().includes(',')) {
         return row.getAttribute('href');
       } else {
         return null;
@@ -39,7 +42,10 @@ async function checkForNewEntries(page) {
 
   // Edit entries
   for (let link of links) {
-    if (link === undefined) { return; }
+    // Link containing 'show' means it has been deleted
+    // and the resulting entry is not editable
+    if (link === undefined ||
+        link.includes('/expenses/show/')) { return; }
     console.log(link);
     await page.goto(baseUrl + link, {waitUntil: 'networkidle2'});
     peopleSelector = 'div.participants';
@@ -66,7 +72,7 @@ async function checkForNewEntries(page) {
 (async () => {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    headless: false,
+    headless: config.headless,
   });
   const page = await browser.newPage();
 
